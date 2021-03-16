@@ -1,0 +1,46 @@
+subnet:
+  - name: jmp
+    type: public
+    addr: 5
+    zone: a
+  
+  - name: devops
+    type: private
+    addr: 1
+    zone: a
+
+  - name: front-1
+    type: private
+    addr: 10
+    zone: a
+  - name: front-2
+    type: private
+    addr: 11
+    zone: b
+
+  - name: public-1
+    type: public
+    addr: 90
+    zone: a
+  - name: public-2
+    type: public
+    addr: 91
+    zone: b
+
+  - name: middle-1
+    type: private
+    addr: 20
+    zone: a
+  - name: middle-2
+    type: private
+    addr: 21
+    zone: b
+
+  - name: data-1
+    type: private
+    addr: 30
+    zone: a
+  - name: data-2
+    type: private
+    addr: 31
+    zone: b
