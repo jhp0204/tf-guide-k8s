@@ -1,0 +1,22 @@
+<%
+require 'yaml'
+subnet_vars = YAML.load(File.read('./_subnet-list.yml'))
+%>
+
+<% subnet_vars['subnet'].each do |subnet| %>
+
+resource "aws_subnet" "subnet-<%=subnet['name']%>" {
+  vpc_id = "${aws_vpc.vpc.id}"
+  cidr_block = "${var.vpc_addr}.<%=subnet['addr']%>.0/24"
+  availability_zone = "${var.region}<%=subnet['zone']%>"
+  tags = {
+    Name = "${var.env}-subnet-<%=subnet['name']%>"
+  }
+}
+
+resource "aws_route_table_association" "route-asso-<%=subnet['name']%>" {
+  subnet_id = "${aws_subnet.subnet-<%=subnet['name']%>.id}"
+  route_table_id = "${aws_route_table.<%=subnet['type']%>-route-table.id}"
+}
+
+<% end %>
