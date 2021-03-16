@@ -1,0 +1,198 @@
+ec2:
+  - name: jmp-01
+    desc: Jumphost
+    root_vol_size: 8
+    subnet: subnet-jmp
+    sg:
+      - allow_all_vpc
+      - allow_22_all
+
+  - name: dops-01
+    desc: DevOps box
+    root_vol_size: 30
+    external_vol:
+      - name: sdb
+        size: 30
+      - name: sdc
+        size: 30
+    type: t2.medium
+    subnet: subnet-devops
+    sg:
+      - allow_all_vpc
+
+  - name: ngw-01
+    desc: Nginx Gateway
+    root_vol_size: 8
+    subnet: subnet-front-1
+    sg:
+      - allow_all_vpc
+      - allow_80_all
+    lb:
+      - ngw-lb
+
+  - name: ngw-02
+    desc: Nginx Gateway
+    root_vol_size: 8
+    subnet: subnet-front-2
+    sg:
+      - allow_all_vpc
+      - allow_80_all
+    lb:
+      - ngw-lb
+
+  - name: cdb-01
+    desc: Cockroach DB
+    root_vol_size: 8
+    external_vol:
+      - name: sdb
+        size: 15
+    type: t2.medium
+    subnet: subnet-data-1
+    sg:
+      - allow_all_vpc
+    lb:
+      - cdb-lb
+
+  - name: cdb-02
+    desc: Cockroach DB
+    root_vol_size: 8
+    external_vol:
+      - name: sdb
+        size: 15
+    subnet: subnet-data-2
+    sg:
+      - allow_all_vpc
+    lb:
+      - cdb-lb
+
+  - name: cdb-03
+    desc: Cockroach DB
+    root_vol_size: 8
+    external_vol:
+      - name: sdb
+        size: 15
+    subnet: subnet-data-1
+    sg:
+      - allow_all_vpc
+    lb:
+      - cdb-lb
+
+  - name: pg-01
+    desc: Postgres DB
+    root_vol_size: 8
+    external_vol:
+      - name: sdb
+        size: 15
+    subnet: subnet-data-1
+    sg:
+      - allow_all_vpc
+
+  - name: pg-02
+    desc: Postgres DB
+    root_vol_size: 8
+    external_vol:
+      - name: sdb
+        size: 15
+    subnet: subnet-data-2
+    sg:
+      - allow_all_vpc
+      
+  - name: pgb-01
+    desc: Pgbouncer
+    root_vol_size: 8
+    subnet: subnet-data-1
+    sg:
+      - allow_all_vpc
+
+  - name: red-01
+    desc: Redis
+    root_vol_size: 8
+    subnet: subnet-middle-1
+    sg:
+      - allow_all_vpc
+
+  - name: red-02
+    desc: Redis
+    root_vol_size: 8
+    subnet: subnet-middle-2
+    sg:
+      - allow_all_vpc
+
+  - name: rmq-01
+    desc: Rabbit MQ
+    root_vol_size: 8
+    subnet: subnet-middle-1
+    sg:
+      - allow_all_vpc
+
+  - name: rmq-02
+    desc: Rabbit MQ
+    root_vol_size: 8
+    subnet: subnet-middle-2
+    sg:
+      - allow_all_vpc
+
+  - name: elm-01
+    desc: ELK (Elastic Search)
+    root_vol_size: 8
+    external_vol:
+      - name: sdb
+        size: 15
+    subnet: subnet-middle-1
+    sg:
+      - allow_all_vpc
+
+  - name: eld-01
+    desc: ELK (Elastic Search)
+    root_vol_size: 8
+    external_vol:
+      - name: sdb
+        size: 15
+    subnet: subnet-middle-1
+    sg:
+      - allow_all_vpc
+
+  - name: kbn-01
+    desc: ELK (Kibana)
+    root_vol_size: 8
+    subnet: subnet-middle-1
+    sg:
+      - allow_all_vpc
+
+  - name: log-01
+    desc: ELK (LogStash)
+    root_vol_size: 8
+    subnet: subnet-middle-1
+    sg:
+      - allow_all_vpc 
+
+  - name: fbt-01
+    desc: ELK (Filebeat)
+    root_vol_size: 8
+    external_vol:
+      - name: sdb
+        size: 15
+    subnet: subnet-middle-1
+    sg:
+      - allow_all_vpc
+
+  - name: bld-01
+    desc: Build Server
+    root_vol_size: 32
+    type: t2.medium
+    external_vol:
+      - name: sdb
+        size: 15
+    subnet: subnet-devops
+    sg:
+      - allow_all_vpc
+
+  - name: mat-01
+    desc: Mattermost
+    root_vol_size: 32
+    type: t2.small
+    subnet: subnet-devops
+    sg:
+      - allow_all_vpc
+
+      
