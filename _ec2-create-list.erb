@@ -1,0 +1,60 @@
+<%
+require 'yaml'
+ec2_vars = YAML.load(File.read('./_ec2-list.yml'))
+%>
+
+<% ec2_vars['ec2'].each do |ec2| %>
+    
+resource "aws_instance" "<%=ec2['name']%>" {
+  ami = "${var.ec2_inst.["ami"]}"
+<%   if defined?ec2['type'] and ec2['type'] != nil %>
+  instance_type = "<%=ec2['type']%>"
+<%   else %>
+  instance_type = "${var.ec2_inst.["type"]}"
+<%   end %>
+  root_block_device {
+    volume_size = <%=ec2['root_vol_size']%>
+  }
+<%   if defined?ec2['external_vol'] and ec2['external_vol'] != nil %>
+<%     ec2['external_vol'].each do |external_vol| %>
+  ebs_block_device {
+    volume_size = <%=external_vol['size']%>
+    device_name = "/dev/<%=external_vol['name']%>"
+  }
+<%     end %>
+<%   end %>
+  key_name = "${aws_key_pair.ec2-key.key_name}"
+  subnet_id = "${aws_subnet.<%=ec2['subnet']%>.id}"
+  vpc_security_group_ids = [ 
+<%   ec2['sg'].each do |sg| %>
+    "${aws_security_group.<%=sg%>.id}",
+<%   end %>
+  ]
+  user_data = "${data.template_file.ec2_userdata.rendered}"
+  tags = {
+    Name = "${var.env}-<%=ec2['name']%>"
+  }
+}
+
+resource "aws_route53_record" "<%=ec2['name']%>" {
+  zone_id = "${aws_route53_zone.zone.zone_id}"
+  name = "${var.env}-<%=ec2['name']%>.${var.env}.lab.io"
+  type = "A"
+  ttl = 300
+  records = [ "${aws_instance.<%=ec2['name']%>.private_ip}" ]
+}
+
+<%   if defined?ec2['lb'] and ec2['lb'] != nil %>
+<%     ec2['lb'].each do |lb| %>
+resource "aws_lb_target_group_attachment" "<%=lb%>-<%=ec2['name']%>" {
+  target_group_arn = "${aws_lb_target_group.<%=lb%>.arn}"
+  target_id        = "${aws_instance.<%=ec2['name']%>.id}"
+}
+<%     end %>
+<%   end %>
+
+output "<%=ec2['name']%>-ip" {
+  value = "${aws_instance.<%=ec2['name']%>.private_ip}"
+}
+
+<% end %>
