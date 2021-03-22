@@ -1,0 +1,21 @@
+variable "vpc_addr" {}				# Private network 의 IP prefix
+variable "env" {}					# ?? 
+variable "region" {}				# 배포 region (us-east-2)
+variable "ec2_key" {}				# ec2 instance를 사용하기 위한 key-pair
+variable "AWS_ACCESS_KEY_ID" {}     # AWS 리소스에 접근하기 위한 Key
+variable "AWS_SECRET_ACCESS_KEY" {} # AWS 리소스에 접근하기 위한 Secret
+variable "ansible_rsa_pub" {}
+
+==
+export ENV="test-jhp0204"    # host 및 Software 등에서 환경을 식별하는 정보 eg) test, qa, stg, prod
+export REGION="hybridcloud-G"
+export VPCNET="10.11"    # Private network 의 IP prefix
+export AWS_ACCESS_KEY_ID="<aws-access-key-id>"    # AWS 리소스에 접근하기 위한 Key
+export AWS_SECRET_ACCESS_KEY="<aws-secret>"    # AWS 리소스에 접근하기 위한 Secret
+export AWS_DEFAULT_REGION="us-east-2"    # AWS 자원이 생성되는 region
+export TF_VAR_AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}"
+export TF_VAR_AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}"
+export TF_VAR_vpc_addr="${VPCNET}"
+export TF_VAR_env="${ENV}"
+export TF_VAR_region="${AWS_DEFAULT_REGION}"
+export TF_VAR_ec2_key="<rsa-key-for-ec2>"    # ec2 resource 에서 사용하는 rsa-public key
