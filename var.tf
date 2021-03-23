@@ -15,7 +15,7 @@ data "template_file" "ec2_userdata" {
 #     		domain = "${var.env}.lab.io"
 #     		ansible_rsa_pub = "${var.ansible_rsa_pub}"
 #   }
-# }
+ }
 
 variable "ec2_inst" {
 	type = "map"
