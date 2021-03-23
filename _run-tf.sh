@@ -11,7 +11,7 @@ erb _ec2-create-list.erb > ec2-all.tf
 erb _subnet-create-list.erb > subnet-all.tf
 
 # terraform init
-terraform init
+terraform init -lock=false
 
 # run terraform
 terraform apply -auto-approve
