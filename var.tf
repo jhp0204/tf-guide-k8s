@@ -8,7 +8,7 @@ variable "ansible_rsa_pub" {}
 
 data "template_file" "ec2_userdata" {
   template = "${file("${path.module}/ec2-userdata.sh")}"
-  vars {
+  variables {
 		AWS_ACCESS_KEY_ID = "${var.AWS_ACCESS_KEY_ID}"
 		AWS_SECRET_ACCESS_KEY = "${var.AWS_SECRET_ACCESS_KEY}"
 		AWS_DEFAULT_REGION = "${var.region}"
