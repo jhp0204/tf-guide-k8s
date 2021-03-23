@@ -22,7 +22,7 @@ variable "ec2_inst" {
 	type = "map"
 	default = {
 		type = "t2.micro",
-		ami = "ami-005bdb005fb00e791"  # Ubuntu 18.04
+		ami = "ami-09246ddb00c7c4fef"# Ubuntu 18.04
 	}
 }
 
