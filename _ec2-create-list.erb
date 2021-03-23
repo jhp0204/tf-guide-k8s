@@ -6,11 +6,11 @@ ec2_vars = YAML.load(File.read('./_ec2-list.yml'))
 <% ec2_vars['ec2'].each do |ec2| %>
     
 resource "aws_instance" "<%=ec2['name']%>" {
-  ami = "${var.ec2_inst.["ami"]}"
+  ami = "${var.ec2_inst["ami"]}"
 <%   if defined?ec2['type'] and ec2['type'] != nil %>
   instance_type = "<%=ec2['type']%>"
 <%   else %>
-  instance_type = "${var.ec2_inst.["type"]}"
+  instance_type = "${var.ec2_inst["type"]}"
 <%   end %>
   root_block_device {
     volume_size = <%=ec2['root_vol_size']%>
