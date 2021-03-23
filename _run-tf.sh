@@ -14,4 +14,4 @@ erb _subnet-create-list.erb > subnet-all.tf
 terraform init
 
 # run terraform
-terraform apply
+terraform apply -auto-approve
