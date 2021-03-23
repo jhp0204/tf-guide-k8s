@@ -10,8 +10,11 @@ export TF_VAR_ansible_rsa_pub="$(cat ./ansible_rsa.pub)"
 erb _ec2-create-list.erb > ec2-all.tf
 erb _subnet-create-list.erb > subnet-all.tf
 
-# terraform init
-terraform init -lock=false
+# terraform destroy
+terraform destroy
 
-# run terraform
-terraform apply -auto-approve
+# # terraform init
+# terraform init -lock=false
+
+# # run terraform
+# terraform apply -auto-approve
